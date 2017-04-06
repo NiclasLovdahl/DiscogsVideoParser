@@ -11,6 +11,7 @@ import org.jsoup.select.Elements;
 import com.machinepublishers.jbrowserdriver.JBrowserDriver;
 import com.machinepublishers.jbrowserdriver.Settings;
 import com.machinepublishers.jbrowserdriver.Timezone;
+import com.sun.media.sound.SoftSynthesizer;
 
 /**
  * Main class.
@@ -36,6 +37,19 @@ public class App {
 			// Release page link parsed
 			Elements ele = doc.getElementsContainingText("View Release Page");
 			System.out.println(ele.attr("href"));
+			
+			driver.get("https://discogs.com" + ele.attr("href"));
+			Document doc2 = Jsoup.parse(driver.getPageSource());	
+			
+			Element element2 = doc2.getElementById("youtube_player_placeholder");
+			
+			System.out.println(element2.attr("data-video-ids"));
+			String links = element2.attr("data-video-ids");
+			String[] links2 = links.split(",");
+			for (String string : links2) {
+				System.out.println(string);
+			}
+			break;
 		}
 
 		driver.quit();
