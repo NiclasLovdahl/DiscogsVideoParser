@@ -13,33 +13,31 @@ import com.machinepublishers.jbrowserdriver.Settings;
 import com.machinepublishers.jbrowserdriver.Timezone;
 
 /**
- * Hello world!
- *
+ * Main class.
+ * 
+ * @author Niclas Lövdahl
+ * 
  */
-public class App 
-{
-    public static void main( String[] args ) throws IOException
-    {
-    	JBrowserDriver driver = new JBrowserDriver(Settings
-                .builder().
-                timezone(Timezone.EUROPE_ATHENS).build());
-        driver.get("https://www.discogs.com/seller/franciesco/profile");
-        String loadedPage = driver.getPageSource();
+public class App {
+	public static void main(String[] args) throws IOException {
+		JBrowserDriver driver = new JBrowserDriver(Settings.builder().timezone(Timezone.EUROPE_ATHENS).build());
+		driver.get("https://www.discogs.com/seller/franciesco/profile");
+		String loadedPage = driver.getPageSource();
 
-        // JSoup parsing part
-        Document document = Jsoup.parse(loadedPage);
-        Elements elements = document.getElementsByClass("item_description_title");
-        
-        for (Element element : elements) {
+		// Item page link parsed
+		Document document = Jsoup.parse(loadedPage);
+		Elements elements = document.getElementsByClass("item_description_title");
+
+		for (Element element : elements) {
+			// Item page load
 			System.out.println(element.attr("href"));
 			driver.get("https://discogs.com" + element.attr("href"));
 			Document doc = Jsoup.parse(driver.getPageSource());
-			System.out.println(doc.text());
+			// Release page link parsed
 			Elements ele = doc.getElementsContainingText("View Release Page");
+			System.out.println(ele.attr("href"));
 		}
 
-       
-
-        driver.quit();
-    }
+		driver.quit();
+	}
 }
