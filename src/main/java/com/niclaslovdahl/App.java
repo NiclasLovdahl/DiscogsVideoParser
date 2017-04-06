@@ -48,6 +48,11 @@ public class App {
 		driver = new JBrowserDriver(Settings.builder().timezone(Timezone.EUROPE_ATHENS).build());
 	}
 
+	/**
+	 * Runs the app.
+	 * 
+	 * @throws MalformedURLException
+	 */
 	public void run() throws MalformedURLException {
 		Document doc = parsePage(link);
 		Elements elements = doc.getElementsByClass("item_description_title");
@@ -73,20 +78,35 @@ public class App {
 		dialog.setAlwaysOnTop(true);
 		JOptionPane.showMessageDialog(dialog, "Playlist successfully created. Enjoy!");
 		driver.quit();
+		System.exit(0);
 	}
 
+	/**
+	 * Returns page content processed by browser.
+	 * 
+	 * @param link
+	 * @return
+	 */
 	public Document parsePage(String link) {
 		driver.get(link);
 		Document doc = Jsoup.parse(driver.getPageSource());
 		return doc;
 	}
 
+	/**
+	 * Removes last char in finalString.
+	 */
 	public void removeLastFromFinal() {
 		if (finalString != null && finalString.length() > 0 && finalString.charAt(finalString.length() - 1) == ',') {
 			finalString = finalString.substring(0, finalString.length() - 1);
 		}
 	}
 
+	/**
+	 * Opens URI in standard web browser.
+	 * 
+	 * @param uri
+	 */
 	public static void openWebpage(URI uri) {
 		Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
 		if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
@@ -98,6 +118,11 @@ public class App {
 		}
 	}
 
+	/**
+	 * Opens URL in standard web browser.
+	 * 
+	 * @param url
+	 */
 	public static void openWebpage(URL url) {
 		try {
 			openWebpage(url.toURI());
