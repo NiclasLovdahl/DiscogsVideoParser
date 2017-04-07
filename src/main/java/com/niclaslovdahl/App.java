@@ -6,6 +6,8 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -34,6 +36,7 @@ public class App {
 	private String link = "";
 	private String finalString = "http://www.youtube.com/watch_videos?video_ids=";
 	private JFrame frame;
+	private Set<String> uniqueLinks;
 
 	public App() {
 		this.link = JOptionPane.showInputDialog("Insert discogs link");
@@ -46,6 +49,7 @@ public class App {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		driver = new JBrowserDriver(Settings.builder().timezone(Timezone.EUROPE_ATHENS).build());
+		this.uniqueLinks = new LinkedHashSet<String>();
 	}
 
 	/**
@@ -67,7 +71,10 @@ public class App {
 				String links = ele2.attr("data-video-ids");
 				String[] links2 = links.split(",");
 				for (String string : links2) {
-					finalString += string + ",";
+					if (!uniqueLinks.contains(string)) {
+						finalString += string + ",";
+						uniqueLinks.add(string);
+					}
 				}
 			}
 		}
