@@ -38,7 +38,7 @@ public class App {
 	public App() {
 		this.link = JOptionPane.showInputDialog("Insert discogs link");
 		this.frame = new JFrame("Discogs Video Parser");
-		ImageIcon loading = new ImageIcon("res/ajax-loader.gif");
+		ImageIcon loading = new ImageIcon(App.class.getResource("/ajax-loader.gif"));
 		frame.add(new JLabel("loading... ", loading, JLabel.CENTER));
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
